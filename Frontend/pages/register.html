@@ -275,7 +275,6 @@
 
     <script src="api.js"></script>
     <script>
-
       // Already logged in → redirect
       if (localStorage.getItem("customerToken")) {
         window.location.href = "profile.html";
@@ -309,7 +308,7 @@
           btn.disabled = true;
 
           try {
-            const data = await apiFetch("/auth/register", {
+            const data = await apiFetch("/customers/register", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ name, email, phone, password, address }),
