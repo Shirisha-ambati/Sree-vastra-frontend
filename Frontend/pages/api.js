@@ -1,7 +1,7 @@
 /**
  * api.js — Shared API utilities for Sree Vastram frontend
  */
-const API_BASE_URL = "http://localhost:3001/api";
+const API_BASE_URL = "https://sree-vastra-backend.onrender.com/api";
 // Backwards-compatible alias for the existing catalogue helpers.
 const API_BASE = API_BASE_URL;
 
@@ -16,7 +16,9 @@ async function apiFetch(path, options = {}) {
       ? await response.json()
       : null;
     if (!response.ok) {
-      const error = new Error(data?.error || `Server returned an error (${response.status}).`);
+      const error = new Error(
+        data?.error || `Server returned an error (${response.status}).`,
+      );
       error.status = response.status;
       error.data = data;
       throw error;
@@ -47,7 +49,9 @@ async function loadProductsByCategory(category, containerId, cardClass) {
     </div>`;
 
   try {
-    const data = await apiFetch(`/products?category=${encodeURIComponent(category)}`);
+    const data = await apiFetch(
+      `/products?category=${encodeURIComponent(category)}`,
+    );
 
     if (!data.length) {
       container.innerHTML = `
@@ -117,7 +121,9 @@ async function searchProducts(query, containerId) {
     </div>`;
 
   try {
-    const data = await apiFetch(`/products?search=${encodeURIComponent(query)}`);
+    const data = await apiFetch(
+      `/products?search=${encodeURIComponent(query)}`,
+    );
 
     if (!data.length) {
       container.innerHTML = `
