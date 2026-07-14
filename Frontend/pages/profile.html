@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile — Sree Vastram</title>
+    <meta
+      name="description"
+      content="View your Sree Vastram profile and track your orders."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="script.js"></script>
+    <style>
+      body {
+        background: #fffafc;
+        font-family: "Inter", sans-serif;
+      }
+      .profile-page {
+        max-width: 960px;
+        margin: 160px auto 60px;
+        padding: 0 16px;
+      }
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 4px 20px rgba(179, 0, 89, 0.1);
+        border: 1px solid #f2c7d2;
+        margin-bottom: 1.5rem;
+      }
+      .profile-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #b30044, #ff4081);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #fff;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .profile-info h2 {
+        font-size: 1.4rem;
+        color: #222;
+        margin-bottom: 0.2rem;
+      }
+      .profile-info p {
+        color: #888;
+        font-size: 0.88rem;
+      }
+      .profile-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 0.75rem;
+      }
+      .btn-pink {
+        padding: 0.6rem 1.2rem;
+        background: linear-gradient(135deg, #b30044, #ff4081);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-pink:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(179, 0, 68, 0.3);
+      }
+      .btn-outline-pink {
+        padding: 0.6rem 1.2rem;
+        background: transparent;
+        color: #e60073;
+        border: 1px solid #e60073;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .btn-outline-pink:hover {
+        background: #fff0f6;
+      }
+
+      /* Two-column layout */
+      .profile-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      @media (max-width: 700px) {
+        .profile-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f2c7d2;
+      }
+      .card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #b30044;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f9e4ed;
+        font-size: 0.9rem;
+      }
+      .info-row:last-child {
+        border-bottom: none;
+      }
+      .info-row .label {
+        color: #888;
+      }
+      .info-row .value {
+        color: #222;
+        font-weight: 500;
+      }
+
+      /* Edit form */
+      .edit-form {
+        display: none;
+      }
+      .edit-form.open {
+        display: block;
+      }
+      .edit-form input,
+      .edit-form textarea {
+        width: 100%;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid #e5b4c6;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-family: "Inter", sans-serif;
+        margin-bottom: 0.75rem;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .edit-form input:focus,
+      .edit-form textarea:focus {
+        border-color: #e60073;
+        box-shadow: 0 0 0 3px rgba(230, 0, 115, 0.1);
+      }
+      .edit-form textarea {
+        resize: vertical;
+        min-height: 65px;
+      }
+
+      /* Orders table */
+      .orders-card {
+        grid-column: 1 / -1;
+      }
+      .order-row {
+        display: grid;
+        grid-template-columns: 60px 1fr auto auto;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.9rem 0;
+        border-bottom: 1px solid #f9e4ed;
+        font-size: 0.88rem;
+      }
+      .order-row:last-child {
+        border-bottom: none;
+      }
+      .order-id {
+        font-weight: 700;
+        color: #b30044;
+      }
+      .order-items {
+        color: #555;
+      }
+      .order-price {
+        font-weight: 700;
+        color: #222;
+        white-space: nowrap;
+      }
+      .order-badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        white-space: nowrap;
+      }
+      .badge-pending {
+        background: rgba(245, 158, 11, 0.15);
+        color: #f59e0b;
+      }
+      .badge-processing {
+        background: rgba(59, 130, 246, 0.15);
+        color: #3b82f6;
+      }
+      .badge-shipped {
+        background: rgba(168, 85, 247, 0.15);
+        color: #a855f7;
+      }
+      .badge-delivered {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+      }
+      .badge-cancelled {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+      }
+
+      .empty-orders {
+        text-align: center;
+        padding: 2rem;
+        color: #aaa;
+      }
+      .spinner-wrap {
+        text-align: center;
+        padding: 2rem;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-top">
+        <div class="logo">Sree Vastram</div>
+
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for Products, Brands and More"
+          />
+        </div>
+
+        <div class="nav-icons">
+          <button class="cart" onclick="location.href = 'cart.html'">
+            🛒 Cart
+          </button>
+          <button class="login btn" onclick="location.href = 'login.html'">
+            Login
+          </button>
+          <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="nav-bottom">
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cotton.html">Cotton Suits</a></li>
+            <li>
+              <a href="stitched-cotton-suits.html">Stitched Cotton Suits</a>
+            </li>
+            <li><a href="saree.html">Sarees</a></li>
+            <li><a href="homedecor.html">Home Decor</a></li>
+            <li><a href="customised jeans.html">Customised Jeans</a></li>
+            <li class="mobile-only"><a href="cart.html">🛒 Cart</a></li>
+            <li class="mobile-only"><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="profile-page">
+      <!-- Profile header -->
+      <div class="profile-header">
+        <div class="profile-avatar" id="avatarInitial">?</div>
+        <div class="profile-info">
+          <h2 id="profileName">Loading…</h2>
+          <p id="profileEmail"></p>
+        </div>
+        <div class="profile-actions">
+          <button
+            class="btn-outline-pink"
+            id="editToggleBtn"
+            onclick="toggleEdit()"
+          >
+            ✏️ Edit
+          </button>
+          <button
+            class="btn-outline-pink"
+            onclick="logout()"
+            style="border-color: #ef4444; color: #ef4444"
+          >
+            🚪 Logout
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-grid">
+        <!-- Info card -->
+        <div class="card">
+          <h3>👤 My Details</h3>
+
+          <!-- View mode -->
+          <div id="infoView">
+            <div class="info-row">
+              <span class="label">Name</span
+              ><span class="value" id="viewName">—</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Email</span
+              ><span class="value" id="viewEmail">—</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Phone</span
+              ><span class="value" id="viewPhone">—</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Address</span
+              ><span class="value" id="viewAddress">—</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Member since</span
+              ><span class="value" id="viewSince">—</span>
+            </div>
+          </div>
+
+          <!-- Edit mode -->
+          <div class="edit-form" id="editForm">
+            <input type="text" id="editName" placeholder="Full name" />
+            <input type="tel" id="editPhone" placeholder="WhatsApp number" />
+            <textarea
+              id="editAddress"
+              placeholder="Delivery address"
+            ></textarea>
+            <button class="btn-pink" onclick="saveProfile()">
+              💾 Save Changes
+            </button>
+            <p
+              id="editError"
+              style="color: #e60073; font-size: 0.82rem; margin-top: 0.5rem"
+            ></p>
+          </div>
+        </div>
+
+        <!-- Stats card -->
+        <div class="card">
+          <h3>📊 My Stats</h3>
+          <div class="info-row">
+            <span class="label">Total Orders</span
+            ><span class="value" id="statOrders">—</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Total Spent</span
+            ><span class="value" id="statSpent">—</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Pending</span
+            ><span class="value" id="statPending">—</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Delivered</span
+            ><span class="value" id="statDelivered">—</span>
+          </div>
+        </div>
+
+        <!-- Orders card -->
+        <div class="card orders-card">
+          <h3>📦 My Orders</h3>
+          <div id="ordersWrap">
+            <div class="spinner-wrap">Loading orders…</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+      const token = localStorage.getItem("customerToken");
+
+      if (!token) {
+        window.location.href = "login.html?redirect=profile.html";
+      }
+
+      function authHeaders() {
+        return {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
+      }
+
+      // Load profile
+      async function loadProfile() {
+        try {
+          const data = await apiFetch("/customers/profile", {
+            headers: authHeaders(),
+          });
+
+          document.getElementById("avatarInitial").textContent = data.name
+            .charAt(0)
+            .toUpperCase();
+          document.getElementById("profileName").textContent = data.name;
+          document.getElementById("profileEmail").textContent = data.email;
+          document.getElementById("viewName").textContent = data.name;
+          document.getElementById("viewEmail").textContent = data.email;
+          document.getElementById("viewPhone").textContent = data.phone;
+          document.getElementById("viewAddress").textContent =
+            data.address || "Not set";
+          document.getElementById("viewSince").textContent = new Date(
+            data.created_at,
+          ).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+
+          // Pre-fill edit form
+          document.getElementById("editName").value = data.name;
+          document.getElementById("editPhone").value = data.phone;
+          document.getElementById("editAddress").value = data.address || "";
+        } catch (err) {
+          if (err.status === 401) {
+            localStorage.removeItem("customerToken");
+            localStorage.removeItem("customerInfo");
+            window.location.href = "login.html?redirect=profile.html";
+            return;
+          }
+          document.getElementById("profileName").textContent =
+            err.message || "Unable to load profile.";
+        }
+      }
+
+      // Load orders
+      async function loadOrders() {
+        const wrap = document.getElementById("ordersWrap");
+        try {
+          const orders = await apiFetch("/customers/orders", {
+            headers: authHeaders(),
+          });
+
+          // Stats
+          const total = orders.length;
+          const spent = orders
+            .filter((o) => o.status !== "cancelled")
+            .reduce((s, o) => s + (Number(o.total_price) || 0), 0);
+          const pending = orders.filter((o) => o.status === "pending").length;
+          const deliv = orders.filter((o) => o.status === "delivered").length;
+          document.getElementById("statOrders").textContent = total;
+          document.getElementById("statSpent").textContent =
+            `₹${spent.toLocaleString("en-IN")}`;
+          document.getElementById("statPending").textContent = pending;
+          document.getElementById("statDelivered").textContent = deliv;
+
+          if (!orders.length) {
+            wrap.innerHTML = `<div class="empty-orders">🛍 No orders yet. <a href="index.html" style="color:#e60073">Start shopping!</a></div>`;
+            return;
+          }
+
+          wrap.innerHTML = orders
+            .map((o) => {
+              const items = Array.isArray(o.items)
+                ? o.items
+                    .map((i) => `${i.name} (x${i.quantity || 1})`)
+                    .join(", ")
+                : JSON.stringify(o.items);
+              const date = new Date(o.created_at).toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              });
+              return `
+            <div class="order-row">
+              <span class="order-id">#${o.id}</span>
+              <span class="order-items">${items} <br><small style="color:#aaa">${date}</small></span>
+              <span class="order-price">₹${Number(o.total_price).toLocaleString("en-IN")}</span>
+              <span class="order-badge badge-${o.status}">${o.status}</span>
+            </div>`;
+            })
+            .join("");
+        } catch (err) {
+          wrap.innerHTML = `<div class="empty-orders">❌ Failed to load orders.</div>`;
+        }
+      }
+
+      function toggleEdit() {
+        const editForm = document.getElementById("editForm");
+        const infoView = document.getElementById("infoView");
+        const isOpen = editForm.classList.contains("open");
+        editForm.classList.toggle("open");
+        infoView.style.display = isOpen ? "block" : "none";
+        document.getElementById("editToggleBtn").textContent = isOpen
+          ? "✏️ Edit"
+          : "✕ Cancel";
+      }
+
+      async function saveProfile() {
+        const name = document.getElementById("editName").value.trim();
+        const phone = document.getElementById("editPhone").value.trim();
+        const address = document.getElementById("editAddress").value.trim();
+        const errEl = document.getElementById("editError");
+        errEl.textContent = "";
+
+        if (!name || !phone) {
+          errEl.textContent = "Name and phone are required.";
+          return;
+        }
+
+        try {
+          const data = await apiFetch("/customers/profile", {
+            method: "PUT",
+            headers: authHeaders(),
+            body: JSON.stringify({ name, phone, address }),
+          });
+
+          // Update localStorage
+          const info = JSON.parse(localStorage.getItem("customerInfo") || "{}");
+          localStorage.setItem(
+            "customerInfo",
+            JSON.stringify({ ...info, name: data.customer.name }),
+          );
+
+          toggleEdit();
+          loadProfile();
+        } catch (err) {
+          errEl.textContent = err.message;
+        }
+      }
+
+      function logout() {
+        if (!confirm("Log out of your account?")) return;
+        localStorage.removeItem("customerToken");
+        localStorage.removeItem("customerInfo");
+        window.location.href = "index.html";
+      }
+
+      loadProfile();
+      loadOrders();
+    </script>
+  </body>
+</html>

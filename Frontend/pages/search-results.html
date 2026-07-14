@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results — Sree Vastram</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script defer src="api.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-top">
+      <div class="logo">Sree Vastram</div>
+      
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search for Products, Brands and More">
+      </div>
+
+      <div class="nav-icons">
+        <button class="cart" onclick="location.href='cart.html'">🛒 Cart</button>
+        <button class="login btn" onclick="location.href='login.html'">Login</button>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="nav-bottom">
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cotton.html">Cotton Suits</a></li>
+          <li><a href="stitched-cotton-suits.html">Stitched Cotton Suits</a></li>
+          <li><a href="saree.html">Sarees</a></li>
+          <li><a href="homedecor.html">Home Decor</a></li>
+          <li><a href="customised jeans.html">Customised Jeans</a></li>
+          <li class="mobile-only"><a href="cart.html">🛒 Cart</a></li>
+          <li class="mobile-only"><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="clothes-section" style="padding-top: 160px;">
+    <h2 class="section-title" id="searchTitle">Search Results</h2>
+    <div id="product-list"></div>
+  </section>
+
+  <div class="back-home-box">
+    <button class="back-home-btn" onclick="location.href='index.html'">⬅ Back to Home</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get('q');
+      
+      if (query) {
+        // Pre-fill search input
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.value = query;
+        }
+        
+        // Update Title
+        document.getElementById('searchTitle').textContent = `Search Results for "${query}"`;
+        
+        // Trigger Search
+        // Wait a small bit to ensure api.js is loaded
+        setTimeout(() => {
+          if (typeof searchProducts === 'function') {
+            searchProducts(query, 'product-list');
+          } else {
+            console.error('searchProducts function not found');
+          }
+        }, 100);
+      } else {
+        document.getElementById('searchTitle').textContent = 'Please enter a search query.';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Place Order — Sree Vastram</title>
+    <meta
+      name="description"
+      content="Complete your purchase from Sree Vastram. Enter your details and place your order via WhatsApp."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="script.js"></script>
+    <style>
+      body {
+        background: #fffafc;
+        font-family: "Inter", sans-serif;
+      }
+
+      .order-container {
+        max-width: 480px;
+        margin: 160px auto 60px;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        border: 1px solid #f2c7d2;
+        box-shadow: 0 8px 30px rgba(179, 0, 68, 0.12);
+      }
+
+      .order-container h2 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-size: 1.6rem;
+        color: #b30044;
+        font-family: "Ga Maamli", sans-serif;
+      }
+
+      .order-subtitle {
+        text-align: center;
+        color: #999;
+        font-size: 0.88rem;
+        margin-bottom: 1.75rem;
+      }
+
+      /* Order summary box */
+      .order-summary-box {
+        background: #fff7f9;
+        border: 1px solid #f2c7d2;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .order-summary-box h4 {
+        color: #b30044;
+        margin-bottom: 0.6rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #444;
+        padding: 4px 0;
+        border-bottom: 1px dashed #f2c7d2;
+      }
+      .summary-item:last-child {
+        border: none;
+      }
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #b30044;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 2px solid #f2c7d2;
+      }
+
+      /* Form */
+      #orderForm label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 4px;
+        margin-top: 0.9rem;
+      }
+      #orderForm input,
+      #orderForm textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5b4c6;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 0.95rem;
+        font-family: "Inter", sans-serif;
+        outline: none;
+        transition:
+          border 0.3s,
+          box-shadow 0.3s;
+        color: #333;
+      }
+      #orderForm input:focus,
+      #orderForm textarea:focus {
+        border-color: #e60073;
+        box-shadow: 0 0 0 3px rgba(230, 0, 115, 0.12);
+      }
+      #orderForm textarea {
+        resize: vertical;
+        min-height: 90px;
+      }
+
+      .order-submit-btn {
+        width: 100%;
+        padding: 0.9rem;
+        margin-top: 1.5rem;
+        background: linear-gradient(135deg, #b30044, #ff4081);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        font-family: "Inter", sans-serif;
+      }
+      .order-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(179, 0, 68, 0.35);
+      }
+      .order-submit-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .order-note {
+        text-align: center;
+        font-size: 0.82rem;
+        color: #999;
+        margin-top: 1rem;
+      }
+      .order-note a {
+        color: #e60073;
+        text-decoration: none;
+      }
+      .order-note a:hover {
+        text-decoration: underline;
+      }
+
+      .saving-indicator {
+        display: none;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #e60073;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-top">
+        <div class="logo">Sree Vastram</div>
+
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for Products, Brands and More"
+          />
+        </div>
+
+        <div class="nav-icons">
+          <button class="cart" onclick="location.href = 'cart.html'">
+            🛒 Cart
+          </button>
+          <button class="login btn" onclick="location.href = 'login.html'">
+            Login
+          </button>
+          <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="nav-bottom">
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cotton.html">Cotton Suits</a></li>
+            <li>
+              <a href="stitched-cotton-suits.html">Stitched Cotton Suits</a>
+            </li>
+            <li><a href="saree.html">Sarees</a></li>
+            <li><a href="homedecor.html">Home Decor</a></li>
+            <li><a href="customised jeans.html">Customised Jeans</a></li>
+            <li class="mobile-only"><a href="cart.html">🛒 Cart</a></li>
+            <li class="mobile-only"><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="order-container">
+      <h2>🛍 Place Your Order</h2>
+      <p class="order-subtitle">
+        Fill in your details — we'll confirm via WhatsApp!
+      </p>
+
+      <!-- Order summary -->
+      <div class="order-summary-box" id="orderSummaryBox">
+        <h4>📋 Order Summary</h4>
+        <div id="summaryItems"></div>
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="summaryTotal">₹0</span>
+        </div>
+      </div>
+
+      <form id="orderForm">
+        <label for="custName">Full Name *</label>
+        <input
+          type="text"
+          id="custName"
+          placeholder="Your full name"
+          required
+        />
+
+        <label for="custNumber">WhatsApp Number *</label>
+        <input
+          type="tel"
+          id="custNumber"
+          placeholder="e.g. 9876543210"
+          required
+        />
+
+        <label for="custAddress">Delivery Address *</label>
+        <textarea
+          id="custAddress"
+          placeholder="Full address with pincode"
+          required
+        ></textarea>
+
+        <button type="submit" class="order-submit-btn" id="submitBtn">
+          📱 Place Order via WhatsApp
+        </button>
+        <p class="saving-indicator" id="savingIndicator">
+          ⏳ Saving your order…
+        </p>
+      </form>
+
+      <p class="order-note">
+        ← <a href="cart.html">Back to cart</a> &nbsp;|&nbsp; Questions?
+        <a href="https://wa.me/918341022797" target="_blank">Chat with us</a>
+      </p>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+      const WHATSAPP_NUMBER = "918341022797";
+
+      // ── Pre-fill from customer account if logged in ──────────────────────────
+      const customerToken = localStorage.getItem("customerToken");
+      const customerInfo = JSON.parse(
+        localStorage.getItem("customerInfo") || "null",
+      );
+
+      if (customerInfo) {
+        document.getElementById("custName").value = customerInfo.name || "";
+        document.getElementById("custNumber").value = customerInfo.phone || "";
+        document.getElementById("custAddress").value =
+          customerInfo.address || "";
+      }
+
+      // Load order item from localStorage (set by cart.html)
+      const orderItem = JSON.parse(localStorage.getItem("orderItem") || "null");
+      const cartRaw = JSON.parse(localStorage.getItem("cart") || "[]");
+
+      if (!orderItem && !cartRaw.length) {
+        window.location.href = "index.html";
+      }
+
+      // Build a cart array for display
+      let cartItems = [];
+      let totalPrice = 0;
+
+      if (cartRaw.length) {
+        cartItems = cartRaw.map((i) => ({
+          name: i.name,
+          color: i.color || "-",
+          size: i.size || "-",
+          price: Number(i.price) || 0,
+          quantity: i.quantity || 1,
+          image: i.image || i.img || "",
+        }));
+        totalPrice = cartItems.reduce(
+          (sum, i) => sum + i.price * i.quantity,
+          0,
+        );
+      } else if (orderItem) {
+        // fallback: single item from direct "Buy Now"
+        cartItems = [
+          {
+            name: orderItem.name,
+            color: orderItem.color,
+            size: orderItem.size,
+            price: orderItem.price,
+            quantity: 1,
+          },
+        ];
+        totalPrice = orderItem.price;
+      }
+
+      // Render order summary
+      const summaryEl = document.getElementById("summaryItems");
+      cartItems.forEach((item) => {
+        const el = document.createElement("div");
+        el.className = "summary-item";
+        el.innerHTML = `
+        <span>${item.name} (x${item.quantity}) — ${item.color}, ${item.size}</span>
+        <span>₹${(item.price * item.quantity).toLocaleString("en-IN")}</span>
+      `;
+        summaryEl.appendChild(el);
+      });
+      document.getElementById("summaryTotal").textContent =
+        `₹${totalPrice.toLocaleString("en-IN")}`;
+
+      // Form submit
+      document
+        .getElementById("orderForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("custName").value.trim();
+          const number = document.getElementById("custNumber").value.trim();
+          const address = document.getElementById("custAddress").value.trim();
+
+          const btn = document.getElementById("submitBtn");
+          const savingEl = document.getElementById("savingIndicator");
+          btn.disabled = true;
+          btn.textContent = "⏳ Processing…";
+          savingEl.style.display = "block";
+
+          // Save order to backend — attach customer token if logged in
+          try {
+            const headers = { "Content-Type": "application/json" };
+            if (customerToken)
+              headers["Authorization"] = `Bearer ${customerToken}`;
+
+            await apiFetch("/orders", {
+              method: "POST",
+              headers,
+              body: JSON.stringify({
+                customer_name: name,
+                customer_phone: number,
+                customer_address: address,
+                items: cartItems,
+                total_price: totalPrice,
+              }),
+            });
+          } catch (err) {
+            // Backend might not be running — order still goes via WhatsApp
+            savingEl.textContent = err.message || "Unable to place your order.";
+            btn.disabled = false;
+            btn.textContent = "Place Order";
+            return;
+          }
+
+          // Clear cart
+          localStorage.removeItem("cart");
+          localStorage.removeItem("orderItem");
+
+          // Build WhatsApp message
+          const itemLines = cartItems
+            .map(
+              (i) =>
+                `• ${i.name} (x${i.quantity}) | Color: ${i.color} | Size: ${i.size} | ₹${i.price * i.quantity}`,
+            )
+            .join("\n");
+
+          const message = `🧵 *SREE VASTRAM ORDER* 🛍
+
+📋 *Order Items:*
+${itemLines}
+
+💰 *Total: ₹${totalPrice.toLocaleString("en-IN")}*
+
+📌 *Customer Details*
+👤 Name: ${name}
+📞 WhatsApp: ${number}
+🏠 Address: ${address}
+
+Please confirm my order. Thank you! 🙏`;
+
+          window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        });
+    </script>
+  </body>
+</html>

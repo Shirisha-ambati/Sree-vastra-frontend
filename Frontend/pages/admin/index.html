@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login — Sree Vastram</title>
+    <meta
+      name="description"
+      content="Sree Vastram Admin Panel — Secure login for store management."
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="login-box">
+        <div class="login-brand">
+          <span class="brand-logo">Sree Vastram</span>
+          <span class="brand-sub">Admin Panel</span>
+        </div>
+
+        <h2 class="login-title">🔐 Sign In</h2>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="adminEmail">Admin Email</label>
+            <input type="email" id="adminEmail" placeholder="admin@example.com" autocomplete="username" required />
+          </div>
+          <div class="form-group">
+            <label for="adminPassword">Admin Password</label>
+            <input
+              type="password"
+              id="adminPassword"
+              placeholder="Enter your admin password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-primary" id="loginBtn">
+            Sign In to Dashboard
+          </button>
+
+          <p class="login-error" id="loginError"></p>
+        </form>
+      </div>
+    </div>
+
+    <script src="../api.js"></script>
+    <script>
+      const API = API_BASE_URL;
+
+      // Redirect if already logged in
+      if (localStorage.getItem("adminToken")) {
+        window.location.href = "dashboard.html";
+      }
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("adminEmail").value.trim();
+          const password = document.getElementById("adminPassword").value;
+          const btn = document.getElementById("loginBtn");
+          const errEl = document.getElementById("loginError");
+
+          btn.textContent = "Signing in…";
+          btn.disabled = true;
+          errEl.textContent = "";
+
+          try {
+            const data = await apiFetch("/auth/admin-login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+            if (data.token) {
+              localStorage.setItem("adminToken", data.token);
+              window.location.href = "dashboard.html";
+            } else {
+              errEl.textContent =
+                data.error || "Login failed. Check your password.";
+              btn.textContent = "Sign In to Dashboard";
+              btn.disabled = false;
+            }
+          } catch (err) {
+            errEl.textContent =
+              "❌ Cannot connect to server. Make sure the backend is running.";
+            btn.textContent = "Sign In to Dashboard";
+            btn.disabled = false;
+          }
+        });
+    </script>
+  </body>
+</html>

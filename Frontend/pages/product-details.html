@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details — Sree Vastram</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="script.js"></script>
+    <style>
+      body {
+        background: #fffafc;
+        font-family: "Inter", sans-serif;
+      }
+      .pd-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        padding: 160px 20px 60px;
+        max-width: 1000px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+      .pd-image-box {
+        flex: 0 0 340px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        background: #f6f6f6;
+      }
+      .pd-image-box img {
+        width: 100%;
+        height: 380px;
+        object-fit: contain;
+        display: block;
+      }
+      .pd-info {
+        flex: 1;
+        min-width: 260px;
+      }
+      .pd-info h2 {
+        font-size: 1.8rem;
+        color: #222;
+        margin-bottom: 0.5rem;
+      }
+      .pd-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #e60073;
+        margin-bottom: 1rem;
+      }
+      .pd-desc {
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+        font-size: 0.95rem;
+      }
+      .pd-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 6px;
+        margin-top: 1rem;
+      }
+      .color-swatches {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .color-swatch {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+      }
+      .color-swatch:hover,
+      .color-swatch.active {
+        border-color: #e60073;
+        transform: scale(1.15);
+      }
+      .size-select {
+        width: 100%;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid #e5b4c6;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-family: "Inter", sans-serif;
+        outline: none;
+        margin-top: 0.3rem;
+      }
+      .size-select:focus {
+        border-color: #e60073;
+      }
+      .pd-buttons {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .pd-buttons button {
+        flex: 1;
+        min-width: 140px;
+        padding: 0.85rem;
+        border: none;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        font-family: "Inter", sans-serif;
+      }
+      .btn-add-cart {
+        background: #fff;
+        color: #e60073;
+        border: 2px solid #e60073 !important;
+      }
+      .btn-buy-now {
+        background: linear-gradient(135deg, #b30044, #ff4081);
+        color: #fff;
+      }
+      .pd-buttons button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(179, 0, 68, 0.25);
+      }
+
+      /* Loading / error state */
+      .pd-loading {
+        text-align: center;
+        padding: 4rem;
+        color: #aaa;
+        width: 100%;
+      }
+      @media (max-width: 700px) {
+        .pd-image-box {
+          flex: 0 0 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-top">
+        <div class="logo">Sree Vastram</div>
+
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for Products, Brands and More"
+          />
+        </div>
+
+        <div class="nav-icons">
+          <button class="cart" onclick="location.href = 'cart.html'">
+            🛒 Cart
+          </button>
+          <button class="login btn" onclick="location.href = 'login.html'">
+            Login
+          </button>
+          <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="nav-bottom">
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cotton.html">Cotton Suits</a></li>
+            <li>
+              <a href="stitched-cotton-suits.html">Stitched Cotton Suits</a>
+            </li>
+            <li><a href="saree.html">Sarees</a></li>
+            <li><a href="homedecor.html">Home Decor</a></li>
+            <li><a href="customised jeans.html">Customised Jeans</a></li>
+            <li class="mobile-only"><a href="cart.html">🛒 Cart</a></li>
+            <li class="mobile-only"><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="pd-wrap" id="pdWrap">
+      <div class="pd-loading">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem">⏳</div>
+        Loading product…
+      </div>
+    </div>
+
+    <div class="back-home-box">
+      <button class="back-home-btn" onclick="history.back()">⬅ Go Back</button>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const productId = params.get("id");
+
+      let product = null;
+      let selectedColor = "";
+      let selectedImage = "";
+
+      async function loadProduct() {
+        const wrap = document.getElementById("pdWrap");
+
+        if (!productId) {
+          wrap.innerHTML = `<div class="pd-loading">❌ No product ID specified.</div>`;
+          return;
+        }
+
+        try {
+          const data = await apiFetch(`/products/${encodeURIComponent(productId)}`);
+
+          product = data;
+          renderProduct(wrap);
+        } catch (err) {
+          wrap.innerHTML = `<div class="pd-loading">❌ ${err.message}<br><a href="index.html" style="color:#e60073">← Back to Home</a></div>`;
+        }
+      }
+
+      function renderProduct(wrap) {
+        // Determine images: prefer JSONB images object, fall back to single image_url
+        const imagesObj =
+          product.images && Object.keys(product.images).length
+            ? product.images
+            : product.image_url
+              ? { default: product.image_url }
+              : {};
+
+        const firstImgUrl = Object.values(imagesObj)[0] || "";
+        selectedImage = firstImgUrl;
+        selectedColor = Object.keys(imagesObj)[0] || "";
+
+        const colors =
+          product.colors && product.colors.length
+            ? product.colors
+            : Object.keys(imagesObj);
+        const sizes =
+          product.sizes && product.sizes.length ? product.sizes : ["Free Size"];
+
+        // Build color swatches
+        const swatchesHtml = colors
+          .map((color, i) => {
+            const imgForColor =
+              imagesObj[color] ||
+              imagesObj[Object.keys(imagesObj)[i]] ||
+              firstImgUrl;
+            return `<button class="color-swatch ${i === 0 ? "active" : ""}"
+                  style="background:${color}"
+                  title="${color}"
+                  onclick="selectColor('${color}', '${imgForColor}', this)">
+                </button>`;
+          })
+          .join("");
+
+        // Build size options
+        const sizeOpts = sizes
+          .map((s) => `<option value="${s}">${s}</option>`)
+          .join("");
+
+        wrap.innerHTML = `
+        <div class="pd-image-box">
+          <img id="pdImg" src="${firstImgUrl}" alt="${escHtml(product.name)}"
+               onerror="this.style.display='none'" />
+        </div>
+
+        <div class="pd-info">
+          <h2>${escHtml(product.name)}</h2>
+          <div class="pd-price">₹${Number(product.price).toLocaleString("en-IN")}</div>
+          <p class="pd-desc">${escHtml(product.description || "")}</p>
+
+          ${
+            colors.length > 0
+              ? `
+          <div class="pd-label">Select Color</div>
+          <div class="color-swatches">${swatchesHtml}</div>
+          `
+              : ""
+          }
+
+          <div class="pd-label">Select Size</div>
+          <select class="size-select" id="sizeSelect">${sizeOpts}</select>
+
+          <div class="pd-buttons">
+            <button class="btn-add-cart" onclick="addToCart()">🛒 Add to Cart</button>
+            <button class="btn-buy-now"  onclick="buyNow()">⚡ Buy Now</button>
+          </div>
+
+          <p style="font-size:0.8rem;color:#aaa;margin-top:1rem;">
+            ${
+              product.stock > 0
+                ? `✅ In stock (${product.stock} available)`
+                : "⚠️ Out of stock — limited availability"
+            }
+          </p>
+        </div>
+      `;
+      }
+
+      function selectColor(color, imgUrl, btn) {
+        selectedColor = color;
+        selectedImage = imgUrl || selectedImage;
+        document.getElementById("pdImg").src = selectedImage;
+        document
+          .querySelectorAll(".color-swatch")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      function addToCart() {
+        if (!product) return;
+        const size =
+          document.getElementById("sizeSelect")?.value || "Free Size";
+        const item = {
+          name: product.name,
+          price: Number(product.price) || 0,
+          color: selectedColor || product.colors?.[0] || "Default",
+          size,
+          image: selectedImage || product.image_url || "",
+          quantity: 1,
+        };
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart.push(item);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log("Added to cart", item, cart);
+        alert(`${product.name} added to cart! 🛒`);
+        location.href = "cart.html";
+      }
+
+      function buyNow() {
+        if (!product) return;
+        const size =
+          document.getElementById("sizeSelect")?.value || "Free Size";
+        const orderItem = {
+          name: product.name,
+          price: product.price,
+          color: selectedColor,
+          size,
+          image: selectedImage,
+        };
+        localStorage.setItem("orderItem", JSON.stringify(orderItem));
+        location.href = "order.html";
+      }
+
+      function escHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      loadProduct();
+    </script>
+  </body>
+</html>
